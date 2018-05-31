@@ -18,6 +18,10 @@ public class Animation {
         setFrames(frames, delay);
     }
 
+    public Animation() {
+
+    }
+
     public void setFrames(TextureRegion[] frames, float delay) {
         this.frames = frames;
         this.delay = delay;
