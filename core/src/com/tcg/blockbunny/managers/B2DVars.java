@@ -6,7 +6,6 @@ public class B2DVars {
 
     // category bits
     public static final short BIT_GROUND = 1 << 1;
-    public static final short BIT_BOX = 1 << 2;
-    public static final short BIT_BALL = 1 << 3;
+    public static final short BIT_PLAYER = 1 << 2;
 
 }

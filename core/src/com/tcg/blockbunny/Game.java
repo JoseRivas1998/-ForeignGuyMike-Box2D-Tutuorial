@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tcg.blockbunny.managers.GameStateManager;
+import com.tcg.blockbunny.managers.MyInput;
+import com.tcg.blockbunny.managers.MyInputProcessor;
 
 public class Game extends ApplicationAdapter {
 
@@ -34,6 +36,7 @@ public class Game extends ApplicationAdapter {
 		hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
 		gsm = new GameStateManager(this);
+		Gdx.input.setInputProcessor(new MyInputProcessor());
 	}
 
 	@Override
@@ -46,6 +49,7 @@ public class Game extends ApplicationAdapter {
 			accum -= STEP;
 			gsm.update(STEP);
 			gsm.render();
+			MyInput.update();
 		}
 	}
 
