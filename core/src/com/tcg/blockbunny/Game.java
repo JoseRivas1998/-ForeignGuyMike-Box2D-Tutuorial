@@ -19,7 +19,6 @@ public class Game extends ApplicationAdapter {
 	public static final int SCALE = 2;
 
 	public static final float STEP = 1 / 60f;
-	private float accum;
 
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
@@ -49,16 +48,12 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		float dt = Gdx.graphics.getDeltaTime();
-		accum += Gdx.graphics.getDeltaTime();
-		while(accum >= STEP) {
-			Gdx.gl.glClearColor(0, 0, 0, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			accum -= STEP;
-			gsm.update(STEP);
-			gsm.render();
-			MyInput.update();
-		}
+		gsm.update(dt);
+		gsm.render();
+		MyInput.update();
 	}
 
 	public SpriteBatch getSpriteBatch() {

@@ -77,7 +77,7 @@ public class Play extends GameState {
     @Override
     public void update(float dt) {
         handleInput();
-        world.step(dt, 6, 2);
+        world.step(Game.STEP, 6, 2);
         player.update(dt);
 
         Array<Body> bodies = cl.getBodiesToRemove();
