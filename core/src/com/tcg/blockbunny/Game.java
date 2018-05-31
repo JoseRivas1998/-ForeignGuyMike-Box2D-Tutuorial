@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tcg.blockbunny.managers.Content;
 import com.tcg.blockbunny.managers.GameStateManager;
 import com.tcg.blockbunny.managers.MyInput;
 import com.tcg.blockbunny.managers.MyInputProcessor;
@@ -26,8 +27,14 @@ public class Game extends ApplicationAdapter {
 
 	private GameStateManager gsm;
 
+	public static Content res;
+
 	@Override
 	public void create () {
+
+		res = new Content();
+		res.loadTexture("res/images/bunny.png", "bunny");
+
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
