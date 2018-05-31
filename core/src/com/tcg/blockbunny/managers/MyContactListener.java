@@ -1,10 +1,17 @@
 package com.tcg.blockbunny.managers;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 
 public class MyContactListener implements ContactListener {
 
     private int numFootContacts;
+    private Array<Body> bodiesToRemove;
+
+    public MyContactListener() {
+        super();
+        bodiesToRemove = new Array<>();
+    }
 
     @Override
     public void beginContact(Contact contact) {
@@ -12,13 +19,20 @@ public class MyContactListener implements ContactListener {
         Fixture fb = contact.getFixtureB();
 
         if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
-            System.out.println("fa is foot");
             numFootContacts++;
         }
         if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
-            System.out.println("fb is foot");
             numFootContacts++;
         }
+        if(fa.getUserData() != null && fa.getUserData().equals("crystal")) {
+            //remove crystal
+            bodiesToRemove.add(fa.getBody());
+        }
+        if(fb.getUserData() != null && fb.getUserData().equals("crystal")) {
+            //remove crystal
+            bodiesToRemove.add(fb.getBody());
+        }
+
 
     }
 
@@ -47,5 +61,9 @@ public class MyContactListener implements ContactListener {
 
     public boolean isPlayerOnGround() {
         return numFootContacts > 0;
+    }
+
+    public Array<Body> getBodiesToRemove() {
+        return bodiesToRemove;
     }
 }

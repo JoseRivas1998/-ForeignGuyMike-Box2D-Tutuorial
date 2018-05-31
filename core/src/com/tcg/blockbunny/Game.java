@@ -34,6 +34,7 @@ public class Game extends ApplicationAdapter {
 
 		res = new Content();
 		res.loadTexture("res/images/bunny.png", "bunny");
+		res.loadTexture("res/images/crystal.png", "crystal");
 
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
