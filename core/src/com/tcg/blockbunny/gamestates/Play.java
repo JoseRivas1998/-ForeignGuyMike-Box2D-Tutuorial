@@ -67,6 +67,11 @@ public class Play extends GameState {
                 player.getBody().applyForceToCenter(0, 250, true);
             }
         }
+
+        if(MyInput.isPressed(MyInput.BUTTON2)) {
+            switchBlocks();
+        }
+
     }
 
     @Override
@@ -90,6 +95,8 @@ public class Play extends GameState {
 
     @Override
     public void render() {
+        cam.position.set(player.getPosition().x * PPM + Game.V_WIDTH / 4, Game.V_HEIGHT / 2, 0);
+        cam.update();
         tmr.setView(cam);
         tmr.render();
         sb.setProjectionMatrix(cam.combined);
@@ -112,13 +119,13 @@ public class Play extends GameState {
 
         bdef.position.set(100 / PPM, 200 / PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.linearVelocity.set(.1f, 0);
+        bdef.linearVelocity.set(1f, 0);
         Body body = world.createBody(bdef);
 
         shape.setAsBox(13 / PPM, 13 / PPM);
         fdef.shape = shape;
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
-        fdef.filter.maskBits = B2DVars.BIT_RED;
+        fdef.filter.maskBits = B2DVars.BIT_RED  | B2DVars.BIT_CRYSTAL;
         body.createFixture(fdef).setUserData("player");
 
         // create foot sensor
@@ -209,6 +216,34 @@ public class Play extends GameState {
 
 
         }
+    }
+
+    private void switchBlocks() {
+        Filter filter = player.getBody().getFixtureList().first().getFilterData();
+
+        short bits = filter.maskBits;
+        // switch to next color
+        // red -> green -> blue -> red
+        if((bits & B2DVars.BIT_RED) != 0) {
+            bits &= ~B2DVars.BIT_RED;
+            bits |= B2DVars.BIT_GREEN;
+        } else if((bits & B2DVars.BIT_GREEN) != 0) {
+            bits &= ~B2DVars.BIT_GREEN;
+            bits |= B2DVars.BIT_BLUE;
+        } else if((bits & B2DVars.BIT_BLUE) != 0) {
+            bits &= ~B2DVars.BIT_BLUE;
+            bits |= B2DVars.BIT_RED;
+        }
+
+        //set new masks
+        filter.maskBits = bits;
+        player.getBody().getFixtureList().first().setFilterData(filter);
+
+        filter = player.getBody().getFixtureList().get(1).getFilterData();
+        bits &= ~B2DVars.BIT_CRYSTAL;
+        filter.maskBits = bits;
+        player.getBody().getFixtureList().get(1).setFilterData(filter);
+
     }
 
 }
